@@ -10,6 +10,7 @@ public Car[] cars;
 public Track currentTrack = new Track();
 
 public ArrayList<PVector> tyreMarks = new ArrayList<PVector>();
+public ArrayList<PVector> mudMarks = new ArrayList<PVector>();
 
 //dealing with multiple simultanious keys being held down is annoying
 //so keep track of them here
@@ -64,29 +65,53 @@ void drawTyreMarks(){
  
   stroke(40);
   fill(40);
-  noStroke();
+  
   //draw the tyres
   if(tyreMarks.size()>200){
       stroke(90);
       fill(90);
      strokeWeight(1);
      for(int i = 0; i < tyreMarks.size()-200;i++){
-      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,2.5,2.5);
+      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,3,3);
      }
      stroke(40);
     fill(40);
     strokeWeight(1);
      for(int i = tyreMarks.size()-200; i < tyreMarks.size();i++){
-      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,2.5,2.5);
+      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,3,3);
      }
   }
   else {
+    stroke(40);
     for(int i = 0; i < tyreMarks.size();i++){
-      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,2.5,2.5);
+      ellipse(tyreMarks.get(i).x,tyreMarks.get(i).y,3,3);
     }
   }
   
-  //this array fills up fast so remove when over, say 300 points
+  //repeat for mud marks
+  if(mudMarks.size()>200){
+      stroke(160,82,45);
+      fill(160,82,45);
+     strokeWeight(1);
+     for(int i = 0; i < mudMarks.size()-200;i++){
+      ellipse(mudMarks.get(i).x,mudMarks.get(i).y,3,3);
+     }
+     
+    fill(160,82,45);
+    strokeWeight(1);
+     for(int i = mudMarks.size()-200; i < mudMarks.size();i++){
+      ellipse(mudMarks.get(i).x,mudMarks.get(i).y,3,3);
+     }
+  }
+  else {
+    stroke(160,82,45);
+    fill(160,82,45);
+    for(int i = 0; i < mudMarks.size();i++){
+      ellipse(mudMarks.get(i).x,mudMarks.get(i).y,3,3);
+    }
+  }
+  
+  
   
 }
 
