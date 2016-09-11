@@ -109,7 +109,7 @@ public class MuscleCar implements Car {
     ability=false;
     
     if(oldY<currentTrack.starty && ypos>currentTrack.starty 
-    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+60){
+    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
        lapCount++; 
     }
    
