@@ -42,6 +42,9 @@ public class MuscleCar implements Car {
 
   //each tick we apply physics to our car and update its position
   public void update() {
+    //keep track of original values
+    float oldX = this.xpos;
+    float oldY = this.ypos;
 
     //if we are off the track apply some penalties
     if (!getTrack().onTrack(new PVector(xpos, ypos))) {
@@ -82,6 +85,8 @@ public class MuscleCar implements Car {
 
     //have to check for collisions
     //have to check for collisions
+    
+    
 
     boolean crash = checkObstacles();
     if (crash) {
@@ -102,6 +107,13 @@ public class MuscleCar implements Car {
         speed = speed +.5;
     }
     ability=false;
+    
+    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
+    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+60){
+       lapCount++; 
+    }
+   
+    
   }
 
   public void accelerate() {

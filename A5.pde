@@ -1,5 +1,7 @@
 /* A 2D racing game implemented with Processing for CGRA151 at VUW */
-import java.util.Date;
+
+
+
 
 //0 = in menu, 1 = in game
 private int gameStatus = 0;
@@ -15,7 +17,12 @@ public ArrayList<PVector> mudMarks = new ArrayList<PVector>();
 //dealing with multiple simultanious keys being held down is annoying
 //so keep track of them here
 ArrayList<String> heldKeys = new ArrayList<String>();
+
+//lap time keeping
 long time = System.currentTimeMillis();
+int lapCount = 0;
+
+
 
 
 void setup(){
@@ -49,16 +56,29 @@ void draw () {
   //now the cars - draw and update
   for(int i = 0; i < cars.length ; i ++){
     cars[i].update();
-    cars[i].draw();
+    if(cars[i]==player){
+      cars[i].draw();
+    }
    }  
-   long newtime = System.currentTimeMillis();
-   text((newtime-time)/1000,1200,100);
+  //lap time logic
+  
+  //check if a lap was completed
+  
+  //if that makes three laps its game over
+  
+  //now display the time
+  long currentTime = System.currentTimeMillis();
    
   
-  
-  
-  
-  
+      int secs = (int) ((currentTime-time) / 1000) % 60 ;
+      int mins = (int) ((currentTime-time) / (1000*60) % 60);
+      int hundredths   = (int) (currentTime-time) / (10) %100;
+      fill(255);
+      text(mins + ":"+secs+":"+hundredths,1200,100);
+    
+    //and display the lap count
+    text("Laps completed: "+ lapCount + "/3", 1200,50);
+     
 }
 
 void drawTyreMarks(){
@@ -125,7 +145,7 @@ void showStartMenu(){
   //give us some example cars to work with
   cars = new Car[4];
   //make the cars, also draw them and their stats
-  for(int i = 1; i< 5 ; i++){
+  for(int i = 1; i< cars.length+1 ; i++){
     switch(i){
      case 1: cars[i-1] = new MuscleCar(150*i,100,0); 
               break;
