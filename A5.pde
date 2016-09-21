@@ -21,6 +21,7 @@ ArrayList<String> heldKeys = new ArrayList<String>();
 //lap time keeping
 long time = System.currentTimeMillis();
 int lapCount = 0;
+long finalTime=0;
 
 
 
@@ -78,6 +79,23 @@ void draw () {
     
     //and display the lap count
     text("Laps completed: "+ lapCount + "/3", 1200,50);
+    
+    // now deal with end of game display
+     if(lapCount>=3){
+       if(finalTime==0){
+          finalTime= currentTime-time; 
+       }
+       
+       if(finalTime!=0){
+         secs = (int) ((finalTime) / 1000) % 60 ;
+         mins = (int) ((finalTime) / (1000*60) % 60);
+         hundredths   = (int) (finalTime) / (10) %100;
+         fill(255);
+         text("final time: " + ":"+secs+":"+hundredths,1200,400);
+         text("Race Over",1200,600);
+       } 
+       
+     }
      
 }
 
@@ -137,6 +155,7 @@ void drawTyreMarks(){
 
 /*shows the start menu - for car select */
 void showStartMenu(){
+  this.lapCount=0;
   this.gameStatus = 0;
   background(255);
   fill(0);
@@ -220,6 +239,9 @@ void mouseClicked(){
     
   } else {
       //otherwise we are in game and check for restart button   
+      if(mouseX > 0 && mouseX <100 && mouseY >0 && mouseY<100){
+        showStartMenu();
+      }
   }  
 }
 
@@ -310,6 +332,8 @@ void checkInput(){
 public Track getTrack(){
     return currentTrack;
 }
+
+
 
 
   

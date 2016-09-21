@@ -6,7 +6,7 @@ public class Track {
   Barrier[] barriers;
   
   //a track needs a start/finish
-  float startx = 50;
+  float startx = 55;
   float starty = 180;
   
   
@@ -75,6 +75,20 @@ for(int i = 0; i< controlPoints.length ; i++){
      barriers[i].draw();
      
    }
+   
+   stroke(255);
+   //now the finish line
+   for(int i=0; i< 9; i++){
+       if(i%2==1){
+         stroke(255);
+          fill(255);
+       } else {
+         stroke(0);
+         fill(0);
+       }
+       rect((startx-10)+(i*10), starty,10,10);
+   }
+   
   
   }
     
@@ -124,8 +138,22 @@ for(int i = 0; i< controlPoints.length ; i++){
        rectMode(CORNER);
        strokeWeight(2);
        
-       fill(255,127,27);
-       rect(x,y,w,h);
+       //fill(255,127,27);
+       //rect(x,y,w,h);
+       fill(0);
+       if(this.w>this.h){
+          for(float i=this.x; i<this.x+this.w; i+=50){
+             fill(255); rect(i,this.y,25,25);
+             fill(255,0,0); rect(i+25,this.y,25,25);
+          }
+       } else {
+         for(float i=this.y; i<this.y+this.h; i+=50){
+             fill(255); rect(this.x,i,25,25);
+             fill(255,0,0); rect(this.x,i+25,25,25);
+          }
+       }
+         
+       
        
      }
      
@@ -207,8 +235,7 @@ for(int i = 0; i< controlPoints.length ; i++){
              }
          return false;
      }
-     
-     //this method will take a point and determine whether or not it is on the tack, otherwise its on the grass
+
     
      
     

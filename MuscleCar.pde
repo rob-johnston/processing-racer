@@ -309,6 +309,7 @@ public class MuscleCar implements Car {
     return false;
   }
 
+//getters and setters...
   public void ability() {
     ability=true;
   }
