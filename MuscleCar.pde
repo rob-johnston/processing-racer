@@ -68,18 +68,24 @@ public class MuscleCar implements Car {
 
     //check window bounds
     if (xpos < 0) {
-      xpos = 0; 
+      xpos = 1; 
       speed = speed-.5;
     } else if ( xpos > 1400) {
-      xpos = 1400;
+      xpos = 1399;
       speed = speed-.5;
+      if(speed<0){
+        speed =0;
+      }
     }
     if (ypos < 0) {
-      ypos = 0; 
+      ypos = 1; 
       speed = speed-.5;
     } else if ( ypos > 800) {
-      ypos = 800;
+      ypos = 799;
       speed = speed-.5;
+      if(speed<0){
+        speed =0;
+      }
     }
 
 

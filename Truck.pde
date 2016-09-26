@@ -36,119 +36,317 @@ public class Truck implements Car {
   }
   
    //each tick we apply physics to our car and update its position
-  public void update(){
-      
+  public void update() {
+    //keep track of original values
+    float oldX = this.xpos;
+    float oldY = this.ypos;
+
+    //if we are off the track apply some penalties
+    if (!getTrack().onTrack(new PVector(xpos, ypos))) {
+      if(speed>(topSpeed/4)){
+        speed = speed - 0.1;
+      }
+    }
+
+    if (speed>0) {
       speed = speed + drag;
-      if(speed<0) { speed = 0; }
-      
-      xpos = xpos + (speed * sin(radians(direction)));
-      ypos = ypos + (speed * cos(radians(direction)));
-      
-      //check window bounds
-      if(xpos < 0){
-         xpos = 0; 
-         speed = speed-.5;
-      } else if( xpos > 1400) {
-          xpos = 1400;
-          speed = speed-.5;
+    }
+    if (speed<0) { 
+      speed = speed - drag;
+    }
+
+    //act normal if on the track
+
+    xpos = xpos + (speed * sin(radians(direction)));
+    ypos = ypos + (speed * cos(radians(direction)));
+
+
+    //check window bounds
+    if (xpos < 0) {
+      xpos = 1; 
+      speed = speed-.5;
+    } else if ( xpos > 1400) {
+      xpos = 1399;
+      speed = speed-.5;
+      if(speed<0){
+        speed =0;
       }
-      if(ypos < 0){
-         ypos = 0; 
-         speed = speed-.5;
-      } else if( ypos > 800) {
-          ypos = 800;
-          speed = speed-.5;
+    }
+    if (ypos < 0) {
+      ypos = 1; 
+      speed = speed-.5;
+    } else if ( ypos > 800) {
+      ypos = 799;
+      speed = speed-.5;
+      if(speed<0){
+        speed =0;
       }
-        
-      
-      //have to check for collisions
-      checkObstacles();
+    }
+
+
+    //have to check for collisions
+    //have to check for collisions
+    
+    
+
+    boolean crash = checkObstacles();
+    if (crash) {
+      health--;
+      if (health <=0) {
+        //explode();
+      }
+      xpos = xpos - (speed * sin(radians(direction)));
+      ypos = ypos - (speed * cos(radians(direction)));
+      boolean doublecheck = checkObstacles();
+      if (doublecheck) {
+        xpos = xpos - (speed/2 * sin(radians(direction)));
+        ypos = ypos - (speed/2 * cos(radians(direction)));
+      }
+      if (speed>0)  
+        speed = speed -.5;
+      if (speed<0)
+        speed = speed +.5;
+    }
+    ability=false;
+    
+    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
+    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
+       lapCount++; 
+    }
+   
+    
   }
-  
-  public void accelerate(){
-   //make the car go 
-   speed = speed +  (accelerationSpeed-acceleration)/100;
-   if(speed<0) {
-        speed = 0; 
-      }
-      if(speed>topSpeed/2){
-         speed=topSpeed/2; 
-      }
+
+  public void accelerate() {
+    //make the car go 
+    //you accelerate faster at the start
+    speed = speed +  (accelerationSpeed-acceleration)/100;
+
+    if (speed<-1) {
+      speed = -1;
+    }
+    if (speed>topSpeed/2) {
+      speed=topSpeed/2;
+    }
   }
-  
-  public void turnRight(){
-      direction = direction - handling/ (4+(speed/3)) ;
-      if(ability){
-         direction = direction - handling/ (4+(speed/3));
-         speed = speed - .1;
-         xpos = xpos + (speed/2 * sin(radians(direction+90)));
-         ypos = ypos + (speed/2 * cos(radians(direction+90)));
+
+  public void turnRight() {
+    direction = direction - handling/ (4+(speed/3)) ;
+    if (checkObstacles()) {
+      direction = direction + handling/ (4+(speed/3));
+    }
+    //if ability is on lets to an awesome drift turn!
+    if (ability) {
+      speed = speed - .08;
+      if (speed<0) {
+        speed = speed +.08;
       }
-      ability=false;
+      direction = direction - handling/ (4+(speed));
+
+      xpos = xpos + (speed/4 * sin(radians(direction+90)));
+      ypos = ypos + (speed/4 * cos(radians(direction+90)));
+      if (checkObstacles()) {
+        direction = direction + handling/ (4+(speed));
+
+        xpos = xpos +(speed/2 * sin(radians(direction-90)));
+        ypos = ypos + (speed/2 * cos(radians(direction-90)));
+      } else {
+        tyreMarks();
+      }
+    }
+    ability=false;
   }
-  
-  public void turnLeft(){
+
+
+  public void turnLeft() {
+
+
     direction = direction + handling/ (4+(speed/3));
-    if(ability){
-         direction = direction + handling/ (4+(speed/3));
-         speed = speed - .1;
-         xpos = xpos + (speed/2 * sin(radians(direction-90)));
-         ypos = ypos + (speed/2 * cos(radians(direction-90)));
+    if (checkObstacles()) {
+      direction = direction - handling/ (4+(speed/3));
+    }
+    //if ability is on lets to an awesome drift turn! - for the mototrbike we should adjust this to be a lean turn. motorbikes dont drift
+    if (ability) {
+
+      speed = speed - .08;
+      if (speed<0) {
+        speed = speed +.08;
       }
-      ability=false;
+      direction = direction + handling/ (4+(speed));
+      xpos = xpos + (speed/4 * sin(radians(direction-90)));
+      ypos = ypos + (speed/4 * cos(radians(direction-90)));
+      if (checkObstacles()) {
+        direction = direction - handling/ (4+(speed));
+        speed = speed - .1;
+        if (speed<0) {
+          speed = speed +.1;
+        }
+        xpos = xpos - (speed/2 * sin(radians(direction-90)));
+        ypos = ypos - (speed/2 * cos(radians(direction-90)));
+      } else {
+        tyreMarks();
+      }
+    }
+    ability=false;
   }
-  
-  public void brake(){
-   //acceleration = acceleration - handling/10;
+
+//this is slightly different from the other cars since the bike only has 2 wheels
+  public void tyreMarks() {
+    float width = 15;
+    float height = 25;
+    //first corner
+    //set square middle to origin        
+    float corner1x = xpos-xpos;
+    float corner1y = (ypos-height/2)-ypos;
+
+    // now apply rotation
+    float rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
+    float rotatedY = corner1x*sin(radians(360-direction)) + corner1y*cos(radians(360-direction));
+    // translate back
+    float xx = rotatedX + (xpos);
+    float yy = rotatedY + (ypos);  
+     
+    if(getTrack().onTrack(new PVector(xx,yy))){
+      tyreMarks.add(new PVector(xx, yy));
+    } else {
+      mudMarks.add(new PVector(xx, yy)); 
+    }
+    
+
+    //set square middle to origin        
+    corner1x = xpos-xpos;
+    corner1y = (ypos+height/2)-ypos;
+
+    // now apply rotation
+    rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
+    rotatedY = corner1x*sin(radians(360-direction)) + corner1y*cos(radians(360-direction));
+    // translate back
+    xx = rotatedX + (xpos);
+    yy = rotatedY + (ypos);  
+
+    if(getTrack().onTrack(new PVector(xx,yy))){
+      tyreMarks.add(new PVector(xx, yy));
+    } else {
+      mudMarks.add(new PVector(xx, yy)); 
+    }
+
+    if (tyreMarks.size()>300) {
+      tyreMarks.remove(0);
+      tyreMarks.remove(0);
+    }
+    if (mudMarks.size()>300) {
+      mudMarks.remove(0);
+      mudMarks.remove(0);
+    }
+  }
+
+
+
+  public void brake() {
+    //acceleration = acceleration - handling/10;
     speed = speed - handling/150;
-    if(speed<0) { speed = 0; }
+    if (speed<-1) { 
+      speed = -1;
+    }
   }
-  
-  //determine the type of car and draw it
-  public void draw(){
+
+  //draw the car/vehicle
+  public void draw() {
+    //position for drawing
     fill(this.col);
     pushMatrix();
-    translate(xpos,ypos);
+    translate(xpos, ypos);
     rotate(radians(360)-radians(direction));
     rectMode(CENTER);
-    rect(0,0,15,25);
+
+    //now draw 
+
+    //base rectangle for the color
+    float width = 8;
+    float height = 20;
+    noStroke();
+    rect(0, 0, width+2, height+2);
+    
+    //wing mirrors
+    rect(width/2,5,7,2);
+    rect(0-width/2,5,7,2);
+    fill(255,0,0);
+    //helmet
+    ellipse(0,2,7,8);
+    //body
+    fill(0);
+    rect(0,-5,5,-7);
+    
+    //front and tyre
+    //angled front
+    stroke(this.col);
+    strokeWeight(2);
+    line(-width/2,height/2,0,height/2+2);
+    line(width/2,height/2,0,height/2+2);
+    //tyre
+    stroke(0);
+    fill(0);
+    strokeWeight(2);
+    line(0,height/2+2,0,height/2+4);
+    
+    
+    
+   //////
+    rectMode(CORNER);
     popMatrix();
+    stroke(0);
+    strokeWeight(1);
+    
   }
-  
- public boolean checkObstacles(){
-     //here we want to check obstacles 
-     Track t = getTrack();
-     for(Barrier b : t.barriers){
-        if(b.contains(new PVector(xpos,ypos))){
-            return true;
-        }
-     }
+
+  public boolean checkObstacles() {
+    //here we want to check obstacles 
+    float width = 15;
+    float height = 25;
+    Track t = getTrack();
+    for (Barrier b : t.barriers) {
+      if (b.contains(new PVector(xpos, ypos), width, height, direction)) {
+        return true;
+      }
+    }
     return false;
   }
-  
-  public void ability(){
-    ability = true;
+
+//getters and setters...
+  public void ability() {
+    ability=true;
   }
-  public void abilityOff(){
-     ability = false; 
+  public void abilityOff() {
+    ability = false;
   }
-      
-  public float getxpos(){
+  public float getxpos() {
     return xpos;
   }
-   public float getypos(){
+  public float getypos() {
     return ypos;
-  }   
-   public void setxpos(float x){
-     xpos=x;
   }
-   public void setypos(float y){
-     ypos=y;
+  public void setxpos(float x) {
+    xpos=x;
   }
-   public float getAcceleration(){ return accelerationSpeed;}
-public float getTopSpeed() { return topSpeed;}
-public float getHandling(){return handling; }
-public int getHealth(){ return this.maxHealth; }
-public String name(){ return name; }
-public color getColor(){return col;}
+  public void setypos(float y) {
+    ypos=y;
+  }
+  public float getAcceleration() { 
+    return accelerationSpeed;
+  }
+  public float getTopSpeed() { 
+    return topSpeed;
+  }
+  public float getHandling() {
+    return handling;
+  }
+  public int getHealth() { 
+    return this.maxHealth;
+  }
+  public String name() { 
+    return name;
+  }
+  public color getColor() {
+    return col;
+  }
 }
