@@ -1,50 +1,51 @@
 /* represents a racing track in the game, consists of a collection of curve points to represent the tarmack and a collection of obstacles */
 
-public class Track {
+public class Track2 extends Track {
   
   PVector[] controlPoints;
   Barrier[] barriers;
   
   //a track needs a start/finish
-  float startx = 55;
-  float starty = 180;
+  float startx = -30;
+  float starty = 150;
   
   
   
-  public Track(){
+  public Track2(){
+    super();
     
     // if we want a sick track we have to hard code - no real way around it for such a small assignment
-    controlPoints = new PVector[18];
-    controlPoints[0] = new PVector(100,100);
-    controlPoints[1] = new PVector(100,700);
-    controlPoints[2] = new PVector(300,700);
-    controlPoints[3] = new PVector(400,600);
-    controlPoints[4] = new PVector(450,600);
-    controlPoints[5] = new PVector(700,600);
-    controlPoints[6] = new PVector(800,500);
-    controlPoints[7] = new PVector(900,600);
-    controlPoints[8] = new PVector(1200,550);
-    controlPoints[9] = new PVector(1100,200);
-    controlPoints[10] = new PVector(1000,100);
+    controlPoints = new PVector[25];
+controlPoints[0]=new PVector(65.0,580.0);
+controlPoints[1]=new PVector(67.0,440.0);
+controlPoints[2]=new PVector(66.0,288.0);
+controlPoints[3]=new PVector(77.0,51.0);
+controlPoints[4]=new PVector(297.0,124.0);
+controlPoints[5]=new PVector(654.0,52.0);
+controlPoints[6]=new PVector(731.0,168.0);
+controlPoints[7]=new PVector(1085.0,127.0);
+controlPoints[8]=new PVector(1307.0,52.0);
+controlPoints[9]=new PVector(1315.0,343.0);
+controlPoints[10]=new PVector(1236.0,517.0);
+controlPoints[11]=new PVector(1352.0,695.0);
+controlPoints[12]=new PVector(1008.0,657.0);
+controlPoints[13]=new PVector(1119.0,322.0);
+controlPoints[14]=new PVector(803.0,299.0);
+controlPoints[15]=new PVector(834.0,697.0);
+controlPoints[16]=new PVector(611.0,693.0);
+controlPoints[17]=new PVector(622.0,278.0);
+controlPoints[18]=new PVector(394.0,246.0);
+controlPoints[19]=new PVector(229.0,273.0);
+controlPoints[20]=new PVector(249.0,543.0);
+controlPoints[21]=new PVector(433.0,584.0);
+controlPoints[22]=new PVector(398.0,729.0);
+controlPoints[23]=new PVector(203.0,731.0);
+controlPoints[24]=new PVector(83.0,726.0);
+
+    super.barriers = new Barrier[1];
+    super.barriers[0] = new Barrier(1,2,3,4);
     
-    controlPoints[11] = new PVector(800,300);
-    controlPoints[12] = new PVector(700,200);
-    controlPoints[13] = new PVector(630,50);
-    controlPoints[14] = new PVector(550,200);
-    controlPoints[15] = new PVector(500,250);
-    controlPoints[16] = new PVector(300,250);
-    controlPoints[17] = new PVector(200,100);
-    
-    
-    //now our barriers
-    barriers = new Barrier[7];
-    barriers[0] = new Barrier(150,150,30,500);
-    barriers[1] = new Barrier(180,500,440,30);
-    barriers[2] = new Barrier(1000,500,150,30);
-    barriers[3] = new Barrier(640,400,380,30);
-    barriers[4] = new Barrier(1000,160,30,400);
-    barriers[5] = new Barrier(610,180,30,350);
-    barriers[6] = new Barrier(1000,1000,30,100);
+   
   }
   
   
@@ -53,7 +54,7 @@ public class Track {
   
   //first do the track
   noFill();
-  strokeWeight(90);
+  strokeWeight(70);
   stroke(100);
   
   
@@ -71,11 +72,11 @@ for(int i = 0; i< controlPoints.length ; i++){
    }
    
    //now draw any barriers
-   for(int i = 0; i< barriers.length ; i++){
-     barriers[i].draw();
+ //  for(int i = 0; i< barriers.length ; i++){
+   //  barriers[i].draw();
      
-   }
-   
+  // }
+   strokeWeight(2);
    stroke(255);
    //now the finish line
    for(int i=0; i< 9; i++){
@@ -121,4 +122,7 @@ for(int i = 0; i< controlPoints.length ; i++){
   
 }
 
- 
+    
+     
+    
+    

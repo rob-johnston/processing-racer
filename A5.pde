@@ -9,7 +9,7 @@ private int gameStatus = 0;
 public Car player;
 public Car[] cars;
 //may be able to chose different tracks in future
-public Track currentTrack = new Track();
+public Track currentTrack = new Track2();
 
 public ArrayList<PVector> tyreMarks = new ArrayList<PVector>();
 public ArrayList<PVector> mudMarks = new ArrayList<PVector>();

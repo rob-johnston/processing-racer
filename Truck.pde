@@ -26,9 +26,9 @@ public class Truck implements Car {
     this.speed=0;
     
     name = "truck";
-              col = color(227,0,0);
-              topSpeed = 6;
-             accelerationSpeed = 4;
+              col = color(227,40,40);
+              topSpeed = 6.5;
+             accelerationSpeed = 3;
               handling = 6;
               maxHealth = 9;
               this.health=maxHealth;
@@ -41,12 +41,7 @@ public class Truck implements Car {
     float oldX = this.xpos;
     float oldY = this.ypos;
 
-    //if we are off the track apply some penalties
-    if (!getTrack().onTrack(new PVector(xpos, ypos))) {
-      if(speed>(topSpeed/4)){
-        speed = speed - 0.1;
-      }
-    }
+    //no grass penalties for the truck
 
     if (speed>0) {
       speed = speed + drag;
@@ -190,13 +185,12 @@ public class Truck implements Car {
     ability=false;
   }
 
-//this is slightly different from the other cars since the bike only has 2 wheels
-  public void tyreMarks() {
+ public void tyreMarks() {
     float width = 15;
     float height = 25;
     //first corner
     //set square middle to origin        
-    float corner1x = xpos-xpos;
+    float corner1x = (xpos-width/2)-xpos;
     float corner1y = (ypos-height/2)-ypos;
 
     // now apply rotation
@@ -214,8 +208,8 @@ public class Truck implements Car {
     
 
     //set square middle to origin        
-    corner1x = xpos-xpos;
-    corner1y = (ypos+height/2)-ypos;
+    corner1x = (xpos+width/2)-xpos;
+    corner1y = (ypos-height/2)-ypos;
 
     // now apply rotation
     rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
@@ -250,7 +244,8 @@ public class Truck implements Car {
     }
   }
 
-  //draw the car/vehicle
+  //determine the type of car and draw it
+  //this is about to get complicated 
   public void draw() {
     //position for drawing
     fill(this.col);
@@ -262,41 +257,46 @@ public class Truck implements Car {
     //now draw 
 
     //base rectangle for the color
-    float width = 8;
-    float height = 20;
+    float width = 15;
+    float height = 25;
     noStroke();
     rect(0, 0, width+2, height+2);
+
+    strokeWeight(3);
+    stroke(col);
+    //bumbers
+    rect(0,-14, width,7);
+    curve(0-(width*2), -20, 0-width/2, 0+height/2, 0+width/2, 0+height/2, 0+(width*2), -20);
     
     //wing mirrors
-    rect(width/2,5,7,2);
-    rect(0-width/2,5,7,2);
-    fill(255,0,0);
-    //helmet
-    ellipse(0,2,7,8);
-    //body
-    fill(0);
-    rect(0,-5,5,-7);
+    fill(col);
+    stroke(col);
+    rect(-width/2,5,5,1);
+    rect(width/2,5,5,1);
     
-    //front and tyre
-    //angled front
-    stroke(this.col);
-    strokeWeight(2);
-    line(-width/2,height/2,0,height/2+2);
-    line(width/2,height/2,0,height/2+2);
-    //tyre
+    //tray
+    strokeWeight(1);
+    stroke(100,0,0);
+    for(int i=0; i<8; i++){
+      line(-width+8+i*2,-4,-width+8+i*2,-height/2-4);
+    }
+    
+    
     stroke(0);
     fill(0);
-    strokeWeight(2);
-    line(0,height/2+2,0,height/2+4);
+    rectMode(CENTER);
+    //windshields
+    rect(0,8,10,3);
+   // rect(0,-8,4,4);
     
+    //windows
+    rect(-6,0,0,8);
+    rect(6,0,0,8);
     
-    
-   //////
     rectMode(CORNER);
     popMatrix();
     stroke(0);
     strokeWeight(1);
-    
   }
 
   public boolean checkObstacles() {

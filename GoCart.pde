@@ -192,7 +192,7 @@ public class GoCart implements Car {
     ability=false;
   }
 
-public void tyreMarks() {
+ public void tyreMarks() {
     float width = 15;
     float height = 25;
     //first corner
@@ -286,7 +286,7 @@ public void tyreMarks() {
    
     //helmet
     fill(20);
-    ellipse(0,2,3,3);
+    ellipse(0,2,3,4);
   
     
     rectMode(CORNER);
