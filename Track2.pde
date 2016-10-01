@@ -6,7 +6,7 @@ public class Track2 extends Track {
   Barrier[] barriers;
   
   //a track needs a start/finish
-  float startx = -30;
+  float startx = -40;
   float starty = 150;
   
   
@@ -78,8 +78,9 @@ for(int i = 0; i< controlPoints.length ; i++){
   // }
    strokeWeight(2);
    stroke(255);
+   
    //now the finish line
-   for(int i=0; i< 9; i++){
+   for(int i=0; i< 7; i++){
        if(i%2==1){
          stroke(255);
           fill(255);
@@ -87,7 +88,7 @@ for(int i = 0; i< controlPoints.length ; i++){
          stroke(0);
          fill(0);
        }
-       rect((startx-10)+(i*10), starty,10,10);
+       rect((startx+65)+(i*10), starty,10,10);
    }
    
   
@@ -109,7 +110,7 @@ for(int i = 0; i< controlPoints.length ; i++){
            float centerx =curvePoint(controlPoints[start].x,controlPoints[second].x,controlPoints[third].x, controlPoints[fourth].x,j);
            float centery =curvePoint(controlPoints[start].y,controlPoints[second].y,controlPoints[third].y,controlPoints[fourth].y,j);
           
-           if(  pow(p.x-centerx,2) + pow(p.y - centery,2) < pow(45,2) ){
+           if(  pow(p.x-centerx,2) + pow(p.y - centery,2) < pow(37,2) ){
              
              return true;            }
          }   
@@ -117,8 +118,10 @@ for(int i = 0; i< controlPoints.length ; i++){
      return false;
  }
   
-  
-  
+  @Override
+  public String toString(){
+   return "track2";
+  }
   
 }
 

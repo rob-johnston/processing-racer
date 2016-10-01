@@ -15,6 +15,8 @@ public class MuscleCar implements Car {
   public float accelerationSpeed;
   public float handling;
   public int maxHealth;
+  
+  public int lap=0;
 
 
 
@@ -34,7 +36,7 @@ public class MuscleCar implements Car {
     name = "Muscle";
     col = color(0, 0, 227);
     topSpeed = 9;
-    accelerationSpeed = 7;
+    accelerationSpeed = 6;
     handling = 6;
     maxHealth = 6;
     this.health=maxHealth;
@@ -69,20 +71,21 @@ public class MuscleCar implements Car {
     //check window bounds
     if (xpos < 0) {
       xpos = 1; 
-      speed = speed-.5;
+      speed = 0;
+      
     } else if ( xpos > 1400) {
       xpos = 1399;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
     }
     if (ypos < 0) {
       ypos = 1; 
-      speed = speed-.5;
+      speed = 0;
     } else if ( ypos > 800) {
       ypos = 799;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
@@ -116,7 +119,7 @@ public class MuscleCar implements Car {
     
     if(oldY<currentTrack.starty && ypos>currentTrack.starty 
     && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
-       lapCount++; 
+       lap++;       
     }
    
     
@@ -296,10 +299,69 @@ public class MuscleCar implements Car {
     rect(-6,0,0,8);
     rect(6,0,0,8);
     
+    //brake lights?
+    noStroke();
+    fill(255,0,0);
+    ellipse(-3,-15,3,3);
+    ellipse(3,-15,3,3);
+    
     rectMode(CORNER);
     popMatrix();
     stroke(0);
     strokeWeight(1);
+    
+    
+    /*if we are at top speed we want to add a little motion blur because that would be sweet*/
+    if(speed>=topSpeed/2-.5){
+         //position for drawing
+        fill(this.col,30);
+        pushMatrix();
+        translate(xpos, ypos);
+        rotate(radians(360)-radians(direction));
+        translate(0,-12);
+        rectMode(CENTER);
+    
+        //now draw 
+    
+        //base rectangle for the color
+        
+        noStroke();
+        rect(0, 0, width+2, height+2);
+    
+        strokeWeight(3);
+        stroke(col,30);
+        //bumbers
+        curve(0-(width*2), 0, 0-width/2, 0-height/2, 0+width/2, 0-height/2, 0+(width*2), 0);
+        curve(0-(width*2), -20, 0-width/2, 0+height/2, 0+width/2, 0+height/2, 0+(width*2), -20);
+        
+        //wing mirrors
+        fill(col,30);
+        stroke(col,30);
+        rect(-width/2,5,5,1);
+        rect(width/2,5,5,1);
+        
+        noStroke();
+      fill(255,0,0,80);
+      ellipse(-3,-15,3,3);
+      ellipse(3,-15,3,3);
+      ellipse(-3,-12,3,3);
+      ellipse(3,-12,3,3);
+      ellipse(-3,-9,3,3);
+      ellipse(3,-9,3,3);
+      ellipse(-3,-6,3,3);
+      ellipse(3,-6,3,3);
+      
+        
+        
+            
+        rectMode(CORNER);
+        popMatrix();
+        stroke(0);
+        strokeWeight(1); 
+      
+      
+    }
+    
   }
 
   public boolean checkObstacles() {
@@ -351,5 +413,8 @@ public class MuscleCar implements Car {
   }
   public color getColor() {
     return col;
+  }
+  public int getLapCount(){
+     return lap; 
   }
 }

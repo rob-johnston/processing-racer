@@ -38,5 +38,6 @@ public float getTopSpeed();
 public float getHandling();
 public int getHealth();
 public color getColor();
+public int getLapCount();
 
 }

@@ -117,6 +117,10 @@ for(int i = 0; i< controlPoints.length ; i++){
  }
   
   
+  public String toString(){
+   return "track";
+  }
+  
   
   
 }

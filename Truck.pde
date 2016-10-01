@@ -15,6 +15,7 @@ public class Truck implements Car {
   public float accelerationSpeed;
   public float handling;
   public int maxHealth;
+  public int lap=0;
   
   float drag = -.01;
   
@@ -56,23 +57,24 @@ public class Truck implements Car {
     ypos = ypos + (speed * cos(radians(direction)));
 
 
-    //check window bounds
+     //check window bounds
     if (xpos < 0) {
       xpos = 1; 
-      speed = speed-.5;
+      speed = 0;
+      
     } else if ( xpos > 1400) {
       xpos = 1399;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
     }
     if (ypos < 0) {
       ypos = 1; 
-      speed = speed-.5;
+      speed = 0;
     } else if ( ypos > 800) {
       ypos = 799;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
@@ -106,7 +108,7 @@ public class Truck implements Car {
     
     if(oldY<currentTrack.starty && ypos>currentTrack.starty 
     && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
-       lapCount++; 
+       lap++; 
     }
    
     
@@ -348,5 +350,8 @@ public class Truck implements Car {
   }
   public color getColor() {
     return col;
+  }
+  public int getLapCount(){
+     return lap; 
   }
 }

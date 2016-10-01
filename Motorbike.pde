@@ -15,6 +15,7 @@ public class Motorbike implements Car {
   public float accelerationSpeed;
   public float handling;
   public int maxHealth;
+  public int lap=0;
   
   float drag = -.01;   
   
@@ -60,23 +61,24 @@ public class Motorbike implements Car {
     ypos = ypos + (speed * cos(radians(direction)));
 
 
-    //check window bounds
+     //check window bounds
     if (xpos < 0) {
       xpos = 1; 
-      speed = speed-.5;
+      speed = 0;
+      
     } else if ( xpos > 1400) {
       xpos = 1399;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
     }
     if (ypos < 0) {
       ypos = 1; 
-      speed = speed-.5;
+      speed = 0;
     } else if ( ypos > 800) {
       ypos = 799;
-      speed = speed-.5;
+      speed = 0;
       if(speed<0){
         speed =0;
       }
@@ -110,7 +112,7 @@ public class Motorbike implements Car {
     
     if(oldY<currentTrack.starty && ypos>currentTrack.starty 
     && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
-       lapCount++; 
+       lap++; 
     }
    
     
@@ -212,31 +214,7 @@ public class Motorbike implements Car {
     }
     
 
-    //set square middle to origin        
-    corner1x = xpos-xpos;
-    corner1y = (ypos+height/2)-ypos;
-
-    // now apply rotation
-    rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
-    rotatedY = corner1x*sin(radians(360-direction)) + corner1y*cos(radians(360-direction));
-    // translate back
-    xx = rotatedX + (xpos);
-    yy = rotatedY + (ypos);  
-
-    if(getTrack().onTrack(new PVector(xx,yy))){
-      tyreMarks.add(new PVector(xx, yy));
-    } else {
-      mudMarks.add(new PVector(xx, yy)); 
-    }
-
-    if (tyreMarks.size()>300) {
-      tyreMarks.remove(0);
-      tyreMarks.remove(0);
-    }
-    if (mudMarks.size()>300) {
-      mudMarks.remove(0);
-      mudMarks.remove(0);
-    }
+   
   }
 
 
@@ -347,5 +325,8 @@ public class Motorbike implements Car {
   }
   public color getColor() {
     return col;
+  }
+  public int getLapCount(){
+     return lap; 
   }
 }
