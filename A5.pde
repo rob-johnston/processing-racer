@@ -235,9 +235,10 @@ void showStartMenu(){
   
   
   //now show the toggle track selection
-  textSize(20);
+  textSize(17);
   fill(0);
   text("Click to toggle track selection", 400,500);
+  textSize(25);
   if(currentTrack.toString().equals("track")){
      text("Current:  Easy Track",400,550);
   } else {
@@ -245,14 +246,16 @@ void showStartMenu(){
   }
  
  //now show if one or two player mode
+ textSize(17);
   text("Click to toggle 1 or 2 player mode", 400,650);
+  textSize(25);
   if(gameStatus==0){
-   text("Current = 1 player - click car choice to begin", 400,700);
+   text("Current = 1 player - Click car choice to begin", 400,700);
   } else if(gameStatus==3) {
      if(player==null) { 
-         text("Current = 2 player - choose player 1",400,700);
+         text("Current = 2 player - Choose player 1",400,700);
      } else {
-         text("Current = 2 player - choose player 2 to begin",400,700); 
+         text("Current = 2 player - Choose player 2 to begin",400,700); 
      }
     
   }
