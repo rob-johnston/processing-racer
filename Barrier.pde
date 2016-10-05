@@ -19,14 +19,14 @@ class Barrier {
        //rect(x,y,w,h);
        fill(0);
        if(this.w>this.h){
-          for(float i=this.x; i<this.x+this.w; i+=50){
-             fill(255); rect(i,this.y,25,25);
-             fill(255,0,0); rect(i+25,this.y,25,25);
+          for(float i=this.x; i<this.x+this.w; i+=40){
+             fill(255); rect(i,this.y,20,20);
+             fill(255,0,0); rect(i+20,this.y,20,20);
           }
        } else {
-         for(float i=this.y; i<this.y+this.h; i+=50){
-             fill(255); rect(this.x,i,25,25);
-             fill(255,0,0); rect(this.x,i+25,25,25);
+         for(float i=this.y; i<this.y+this.h; i+=40){
+             fill(255); rect(this.x,i,20,20);
+             fill(255,0,0); rect(this.x,i+20,20,20);
           }
        }
          
@@ -110,6 +110,44 @@ class Barrier {
              if(xx>x && xx< x+w && yy>y && yy<y+h){
                  return true;
              }
+             
+             //going to check middle of sides as well
+             
+             //fifth
+             //fourth
+              //set square middle to origin        
+            corner1x = (p.x+width/2)-p.x;
+            corner1y = p.y-p.y;
+            
+            // now apply rotation
+             rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
+             rotatedY = corner1x*sin(radians(360-direction)) + corner1y*cos(radians(360-direction));
+            // translate back
+             xx = rotatedX + (p.x);
+             yy = rotatedY + (p.y);
+             
+             if(xx>x && xx< x+w && yy>y && yy<y+h){
+                 return true;
+             }
+             
+             //sixth
+            
+              //set square middle to origin        
+            corner1x = (p.x-width/2)-p.x;
+            corner1y = p.y-p.y;
+            
+            // now apply rotation
+             rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
+             rotatedY = corner1x*sin(radians(360-direction)) + corner1y*cos(radians(360-direction));
+            // translate back
+             xx = rotatedX + (p.x);
+             yy = rotatedY + (p.y);
+             
+             if(xx>x && xx< x+w && yy>y && yy<y+h){
+                 return true;
+             }
+             
+             
          return false;
      }
 

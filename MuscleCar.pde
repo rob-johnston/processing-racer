@@ -155,9 +155,9 @@ public class MuscleCar implements Car {
       ypos = ypos + (speed/2 * cos(radians(direction+90)));
       if (checkObstacles()) {
         direction = direction + handling/ (4+(speed/3));
-
-        xpos = xpos +(speed/2 * sin(radians(direction-90)));
-        ypos = ypos + (speed/2 * cos(radians(direction-90)));
+        xpos = xpos -(speed/2 * sin(radians(direction+90)));
+        ypos = ypos - (speed/2 * cos(radians(direction+90)));
+   
       } else {
         tyreMarks();
       }
@@ -185,12 +185,12 @@ public class MuscleCar implements Car {
       ypos = ypos + (speed/2 * cos(radians(direction-90)));
       if (checkObstacles()) {
         direction = direction - handling/ (4+(speed/3));
+        xpos = xpos - (speed/2 * sin(radians(direction-90)));
+        ypos = ypos - (speed/2 * cos(radians(direction-90)));
         speed = speed - .1;
         if (speed<0) {
           speed = speed +.1;
         }
-        xpos = xpos - (speed/2 * sin(radians(direction-90)));
-        ypos = ypos - (speed/2 * cos(radians(direction-90)));
       } else {
         tyreMarks();
       }
@@ -200,11 +200,11 @@ public class MuscleCar implements Car {
 
   public void tyreMarks() {
     float width = 15;
-    float height = 25;
+    float height = 30;
     //first corner
     //set square middle to origin        
-    float corner1x = (xpos-width/2)-xpos;
-    float corner1y = (ypos-height/2)-ypos;
+    float corner1x = (xpos-width/2.2)-xpos;
+    float corner1y = (ypos-height/2.2)-ypos;
 
     // now apply rotation
     float rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
@@ -221,8 +221,8 @@ public class MuscleCar implements Car {
     
 
     //set square middle to origin        
-    corner1x = (xpos+width/2)-xpos;
-    corner1y = (ypos-height/2)-ypos;
+    corner1x = (xpos+width/2.2)-xpos;
+    corner1y = (ypos-height/2.2)-ypos;
 
     // now apply rotation
     rotatedX = corner1x*cos(radians(360-direction)) - corner1y*sin(radians(360-direction));
@@ -350,26 +350,21 @@ public class MuscleCar implements Car {
       ellipse(3,-9,3,3);
       ellipse(-3,-6,3,3);
       ellipse(3,-6,3,3);
-      
-        
-        
             
         rectMode(CORNER);
         popMatrix();
         stroke(0);
         strokeWeight(1); 
-      
-      
     }
     
   }
-
+  //return true if theres a crash, otherwise return false
   public boolean checkObstacles() {
     //here we want to check obstacles 
     float width = 15;
     float height = 25;
     Track t = getTrack();
-    for (Barrier b : t.barriers) {
+    for (Barrier b : t.getBarriers()) {
       if (b.contains(new PVector(xpos, ypos), width, height, direction)) {
         return true;
       }

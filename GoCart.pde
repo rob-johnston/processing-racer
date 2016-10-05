@@ -28,9 +28,9 @@ public class GoCart implements Car {
     this.acceleration = 0;
     this.speed=0;
     
-     name = "gocart";
+     name = "Gocart";
               col =  color(227,0,227);
-              topSpeed = 7;
+              topSpeed = 7.5;
               accelerationSpeed = 6;
               handling = 9;
               maxHealth = 4;
@@ -142,7 +142,7 @@ public class GoCart implements Car {
     }
     //if ability is on lets to an awesome drift turn!
     if (ability) {
-      speed = speed - .08;
+      speed = speed - .1;
       if (speed<0) {
         speed = speed +.08;
       }
@@ -173,7 +173,7 @@ public class GoCart implements Car {
     //if ability is on lets to an awesome drift turn! - for the mototrbike we should adjust this to be a lean turn. motorbikes dont drift
     if (ability) {
 
-      speed = speed - .08;
+      speed = speed - .1;
       if (speed<0) {
         speed = speed +.08;
       }
@@ -290,12 +290,54 @@ public class GoCart implements Car {
     //helmet
     fill(20);
     ellipse(0,2,3,4);
+    
+    //brake lights?
+    noStroke();
+    fill(255,0,0);
+    ellipse(-3,-9,2,2);
+    ellipse(3,-9,2,2);
   
     
     rectMode(CORNER);
     popMatrix();
     stroke(0);
     strokeWeight(1);
+    if(speed>=topSpeed/2-.5){
+         //position for drawing
+        fill(this.col,30);
+        pushMatrix();
+        translate(xpos, ypos);
+        rotate(radians(360)-radians(direction));
+        translate(0,-8);
+        rectMode(CENTER);
+    
+        //now draw 
+    
+        //base rectangle for the color
+        
+        noStroke();
+        rect(0, 0, width+2, height+2);
+    
+        strokeWeight(3);
+        stroke(col,30);
+        
+        
+        noStroke();
+      fill(255,0,0,80);
+      ellipse(-3,-15,3,3);
+      ellipse(3,-15,3,3);
+      ellipse(-3,-12,3,3);
+      ellipse(3,-12,3,3);
+      ellipse(-3,-9,3,3);
+      ellipse(3,-9,3,3);
+      ellipse(-3,-6,3,3);
+      ellipse(3,-6,3,3);
+            
+        rectMode(CORNER);
+        popMatrix();
+        stroke(0);
+        strokeWeight(1); 
+    }
     
   }
 
@@ -304,7 +346,7 @@ public class GoCart implements Car {
     float width = 15;
     float height = 25;
     Track t = getTrack();
-    for (Barrier b : t.barriers) {
+    for (Barrier b : t.getBarriers()) {
       if (b.contains(new PVector(xpos, ypos), width, height, direction)) {
         return true;
       }

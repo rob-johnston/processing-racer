@@ -112,6 +112,8 @@ void draw () {
 }
 /* draws the tyre slide marks on screen*/
 void drawTyreMarks(){
+  
+  println(tyreMarks.size());
  
   stroke(40);
   fill(40);
@@ -168,10 +170,13 @@ void drawTyreMarks(){
 /*shows the start menu - for car and track select */
 void showStartMenu(){
   this.lapCount=0;
-  this.gameStatus = 0;
+  if(gameStatus!=0 && gameStatus!=3){
+      this.gameStatus = 0;
+  }
   background(255);
   fill(0);
   textSize(25);
+   stroke(0);
   text("Select your car", 20,20);
   //give us some example cars to work with
   cars = new Car[4];
@@ -190,8 +195,9 @@ void showStartMenu(){
     cars[i-1].draw(); 
     rectMode(CORNER);
     textSize(20);
+    fill(0);
      //name
-     text(cars[i-1].name(), (150*i)-30, 150);
+    text(cars[i-1].name(), (150*i)-30, 150);
     textSize(15);
      //accel
      
@@ -238,12 +244,49 @@ void showStartMenu(){
      text("Current:  Advanced Track", 400,550); 
   }
  
-  
+ //now show if one or two player mode
+  text("Click to toggle 1 or 2 player mode", 400,650);
+  if(gameStatus==0){
+   text("Current = 1 player - click car choice to begin", 400,700);
+  } else if(gameStatus==3) {
+     if(player==null) { 
+         text("Current = 2 player - choose player 1",400,700);
+     } else {
+         text("Current = 2 player - choose player 2 to begin",400,700); 
+     }
+    
+  }
   
  
 }
 /*used to detect menu choices and for the menu button when in game*/
 void mouseClicked(){
+  //player mode switching
+  if( mouseX>400 & mouseX<700 && mouseY>620 && mouseY<750){
+         if(gameStatus==0){
+            println("Entering 2 player mode");
+            gameStatus=3;
+            player=null; player2 =null;
+         } else if (gameStatus==3){
+           println("exiting 2 player mode");
+          gameStatus=0; 
+          player=null; player2=null;
+         }
+         showStartMenu();
+    }
+  //track selection switching
+  if(mouseX > 400 && mouseX < 700 && mouseY> 450 && mouseY < 560){
+        //toggle which track to use
+        if(currentTrack.toString().equals("track")) {
+           currentTrack = new Track2(); 
+        } else {
+           currentTrack = new Track(); 
+        }
+        //menu doesnt draw as part of the draw loop so we have to implicityly call to show the updated menu
+        showStartMenu();
+    } 
+  
+ 
   //deal with menu choices
   if(gameStatus==0){
     if(mouseX > 130 && mouseX < 180 && mouseY<400){
@@ -258,33 +301,24 @@ void mouseClicked(){
     } else if (mouseX >580 && mouseX < 620 && mouseY<400){
         player = cars[3];
        readyGame();
-    }  else if(mouseX > 400 && mouseX < 600 && mouseY> 450 && mouseY < 650){
-        //toggle which track to use
-        if(currentTrack.toString().equals("track")) {
-           currentTrack = new Track2(); 
-        } else {
-           currentTrack = new Track(); 
-        }
-        //menu doesnt draw as part of the draw loop so we have to implicityly call to show the updated menu
-        showStartMenu();
-    } else if( mouseX>400 & mouseX<600 && mouseY>650 && mouseY<800){
-          println("Entering 2 plaer mode");
-          gameStatus =3;
-          
-    }
+    } 
     
   } else if (gameStatus==3){
-    
+        
     //two player mode selected
     if(player==null){
         if(mouseX > 130 && mouseX < 180 && mouseY<400){
          player = cars[0];
+         showStartMenu();
       } else if (mouseX >280 && mouseX < 320 && mouseY<400){
          player = cars[1];
+         showStartMenu();
       }else if (mouseX >430 && mouseX < 470 && mouseY<400){
          player = cars[2];
+         showStartMenu();
       } else if (mouseX >580 && mouseX < 620 && mouseY<400){
           player = cars[3];
+          showStartMenu();
       }  
       
     } else {
@@ -303,10 +337,6 @@ void mouseClicked(){
       }  
      
     }
-    
-  
-    
-    
   } else {
       //otherwise we are in game and check for restart/menu button   
       if(mouseX>1320 && mouseX <1400 && mouseY >750 && mouseY<800){
@@ -323,7 +353,7 @@ void readyGame(){
   player.setypos(currentTrack.starty);
   
   if(player2!=null){
-    player2.setxpos(currentTrack.startx +50); 
+    player2.setxpos(currentTrack.startx -20); 
     player2.setypos(currentTrack.starty);
   }
  
@@ -393,11 +423,15 @@ void keyPressed(){
                heldKeys.add("d");
              }
            }
+           
+          if(key=='v'){
+            if(!heldKeys.contains("v")){
+               heldKeys.add("v"); 
+              player2.ability();
+            }
          }
-         if(key=='v'){
-            heldKeys.add("v"); 
-            player2.ability();
-         }
+   }
+        
    
 }
 

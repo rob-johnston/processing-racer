@@ -26,10 +26,10 @@ public class Truck implements Car {
     this.acceleration = 0;
     this.speed=0;
     
-    name = "truck";
+    name = "Truck";
               col = color(227,40,40);
-              topSpeed = 6.5;
-             accelerationSpeed = 3;
+              topSpeed = 7;
+             accelerationSpeed = 3.5;
               handling = 6;
               maxHealth = 9;
               this.health=maxHealth;
@@ -295,10 +295,51 @@ public class Truck implements Car {
     rect(-6,0,0,8);
     rect(6,0,0,8);
     
+    //brake lights?
+    noStroke();
+    fill(255,0,0);
+    ellipse(-3,-19,3,3);
+    ellipse(3,-19,3,3);
+    
     rectMode(CORNER);
     popMatrix();
     stroke(0);
     strokeWeight(1);
+    if(speed>=topSpeed/2-.5){
+         //position for drawing
+        fill(this.col,30);
+        pushMatrix();
+        translate(xpos, ypos);
+        rotate(radians(360)-radians(direction));
+        translate(0,-8);
+        rectMode(CENTER);
+    
+        //now draw 
+    
+        //base rectangle for the color
+        
+        noStroke();
+        rect(0, 0, width+2, height+2);
+    
+        strokeWeight(3);
+        stroke(col,30);
+        
+        
+        noStroke();
+      fill(255,0,0,80);
+      ellipse(-3,-17,3,3);
+      ellipse(3,-17,3,3);
+      ellipse(-3,-19,3,3);
+      ellipse(3,-19,3,3);
+      ellipse(-3,-21,3,3);
+      ellipse(3,-21,3,3);
+     
+            
+        rectMode(CORNER);
+        popMatrix();
+        stroke(0);
+        strokeWeight(1); 
+    }
   }
 
   public boolean checkObstacles() {
@@ -306,7 +347,7 @@ public class Truck implements Car {
     float width = 15;
     float height = 25;
     Track t = getTrack();
-    for (Barrier b : t.barriers) {
+    for (Barrier b :t.getBarriers()) {
       if (b.contains(new PVector(xpos, ypos), width, height, direction)) {
         return true;
       }

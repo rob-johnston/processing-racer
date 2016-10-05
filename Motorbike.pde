@@ -26,7 +26,7 @@ public class Motorbike implements Car {
     this.acceleration = 0;
     this.speed=0;
     
-    name = "motorbike";
+    name = "Motorbike";
               col = color(227,227,0);
               topSpeed = 7;
               accelerationSpeed = 9;
@@ -206,11 +206,22 @@ public class Motorbike implements Car {
     // translate back
     float xx = rotatedX + (xpos);
     float yy = rotatedY + (ypos);  
+    
+    
      
     if(getTrack().onTrack(new PVector(xx,yy))){
-      tyreMarks.add(new PVector(xx, yy));
+        tyreMarks.add(new PVector(xx, yy));
     } else {
       mudMarks.add(new PVector(xx, yy)); 
+    }
+    
+    if (tyreMarks.size()>300) {
+      tyreMarks.remove(0);
+      tyreMarks.remove(0);
+    }
+    if (mudMarks.size()>300) {
+      mudMarks.remove(0);
+      mudMarks.remove(0);
     }
     
 
@@ -266,6 +277,12 @@ public class Motorbike implements Car {
     strokeWeight(2);
     line(0,height/2+2,0,height/2+4);
     
+    //brake lights?
+    noStroke();
+    fill(255,0,0);
+    ellipse(-3,-12,2,2);
+    ellipse(3,-12,2,2);
+    
     
     
    //////
@@ -274,6 +291,44 @@ public class Motorbike implements Car {
     stroke(0);
     strokeWeight(1);
     
+    /*if we are at top speed we want to add a little motion blur because that would be sweet*/
+    if(speed>=topSpeed/2-.5){
+         //position for drawing
+        fill(this.col,30);
+        pushMatrix();
+        translate(xpos, ypos);
+        rotate(radians(360)-radians(direction));
+        translate(0,-8);
+        rectMode(CENTER);
+    
+        //now draw 
+    
+        //base rectangle for the color
+        
+        noStroke();
+        rect(0, 0, width+2, height+2);
+    
+        strokeWeight(3);
+        stroke(col,30);
+        
+        
+        noStroke();
+      fill(255,0,0,80);
+      ellipse(-3,-15,3,3);
+      ellipse(3,-15,3,3);
+      ellipse(-3,-12,3,3);
+      ellipse(3,-12,3,3);
+      ellipse(-3,-9,3,3);
+      ellipse(3,-9,3,3);
+      ellipse(-3,-6,3,3);
+      ellipse(3,-6,3,3);
+            
+        rectMode(CORNER);
+        popMatrix();
+        stroke(0);
+        strokeWeight(1); 
+    }
+    
   }
 
   public boolean checkObstacles() {
@@ -281,7 +336,7 @@ public class Motorbike implements Car {
     float width = 15;
     float height = 25;
     Track t = getTrack();
-    for (Barrier b : t.barriers) {
+    for (Barrier b : t.getBarriers()) {
       if (b.contains(new PVector(xpos, ypos), width, height, direction)) {
         return true;
       }

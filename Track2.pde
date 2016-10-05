@@ -42,9 +42,32 @@ controlPoints[22]=new PVector(398.0,729.0);
 controlPoints[23]=new PVector(203.0,731.0);
 controlPoints[24]=new PVector(83.0,726.0);
 
-    super.barriers = new Barrier[1];
-    super.barriers[0] = new Barrier(1,2,3,4);
     
+    
+    barriers  = new Barrier[15];
+    barriers[0] = new Barrier(100,100,20,600);
+    barriers[1] = new Barrier(280,300,240,20);
+    barriers[2] = new Barrier(280,300,20,200);
+    barriers[3] = new Barrier(280,500,250,20);
+    barriers[4] = new Barrier(520,300,20,500);
+    barriers[5] = new Barrier(170,500,20,165);
+   barriers[6] = new Barrier(170,670,120,20);
+   
+   barriers[7] = new Barrier(130,173,500,20);
+   barriers[8] = new Barrier(630,100,20,100);
+   
+   barriers[9] = new Barrier(630,205,550,20);
+   
+   barriers[10] = new Barrier(700,230,20,400);
+   
+   barriers[11] = new Barrier(900,300,20,500);
+   
+   barriers[12] = new Barrier(1170,200,20,40);
+   
+   
+   barriers[13] = new Barrier(170,500,20,165);
+   barriers[14] = new Barrier(170,500,20,165);
+   
    
   }
   
@@ -72,10 +95,10 @@ for(int i = 0; i< controlPoints.length ; i++){
    }
    
    //now draw any barriers
- //  for(int i = 0; i< barriers.length ; i++){
-   //  barriers[i].draw();
+  for(int i = 0; i< this.barriers.length ; i++){
+    this.barriers[i].draw();
      
-  // }
+   }
    strokeWeight(2);
    stroke(255);
    
@@ -122,6 +145,10 @@ for(int i = 0; i< controlPoints.length ; i++){
   public String toString(){
    return "track2";
   }
+  @Override
+ public Barrier[] getBarriers(){
+  return this.barriers; 
+ }
   
 }
 
