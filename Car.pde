@@ -33,6 +33,7 @@ public void setypos(float y);
 
 public String name();
 
+public void setTopSpeed(float f);
 public float getAcceleration();
 public float getTopSpeed();
 public float getHandling();

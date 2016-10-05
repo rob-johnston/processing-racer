@@ -333,10 +333,20 @@ void mouseClicked(){
       } else if (mouseX >580 && mouseX < 620 && mouseY<400){
           player2 = new Motorbike(100,100,0);
           readyGame();
-      }  
+      }  else if(mouseX <30 && mouseY >700){
+       //secret click in bottom left sets top speed of your vehicle to 10! 
+       player.setTopSpeed(10.0f);
+    }
      
     }
   } else {
+       if(mouseX <30 && mouseY >700){
+         //secret click in bottom left sets top speed of your vehicle to 10! 
+         player.setTopSpeed(11.0f);
+         if(player2!=null){
+             player2.setTopSpeed(11.0f); 
+         }
+    }
       //otherwise we are in game and check for restart/menu button   
       if(mouseX>1320 && mouseX <1400 && mouseY >750 && mouseY<800){
         readyGame();
@@ -351,11 +361,11 @@ void mouseClicked(){
 void readyGame(){
   //get car into position
   player.setxpos(currentTrack.getStartX() +25); 
-  player.setypos(currentTrack.getStartY());
+  player.setypos(currentTrack.getStartY()+2);
   
   if(player2!=null){
     player2.setxpos(currentTrack.getStartX() +60); 
-    player2.setypos(currentTrack.getStartY());
+    player2.setypos(currentTrack.getStartY()+2);
   }
  
   //set up time and lap counting variables

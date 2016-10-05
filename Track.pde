@@ -9,7 +9,7 @@ public class Track {
   float startx = 55;
   float starty = 180;
   
-  
+   ArrayList<PVector> tyres = new ArrayList<PVector>();
   
   public Track(){
     
@@ -45,6 +45,22 @@ public class Track {
     barriers[4] = new Barrier(1000,160,30,400);
     barriers[5] = new Barrier(610,180,30,350);
     barriers[6] = new Barrier(1000,1000,30,100);
+    
+    
+    tyres.add(new PVector(300,600));
+    tyres.add(new PVector(280,600));
+    tyres.add(new PVector(260,600));
+    tyres.add(new PVector(240,600));
+    
+    tyres.add(new PVector(250,615));
+    tyres.add(new PVector(270,615));
+    tyres.add(new PVector(290,615));
+    
+    tyres.add(new PVector(260,630));
+    tyres.add(new PVector(280,630));
+     
+    tyres.add(new PVector(270,645));
+   
   }
   
   
@@ -87,6 +103,16 @@ for(int i = 0; i< controlPoints.length ; i++){
          fill(0);
        }
        rect((startx-10)+(i*10), starty,10,10);
+   }
+   
+   
+   //tyres
+   noStroke();
+   for(PVector tyre: tyres){
+     fill(70);
+     ellipse(tyre.x,tyre.y,20,20);
+     fill(0);
+     ellipse(tyre.x,tyre.y,10,10);
    }
    
   

@@ -106,8 +106,8 @@ public class Truck implements Car {
     }
     ability=false;
     
-    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
-    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
+   if(oldY<currentTrack.getStartY() && ypos>currentTrack.getStartY() 
+    && xpos > currentTrack.getStartX()-60 && xpos < currentTrack.getStartX()+90){
        lap++; 
     }
    
@@ -394,5 +394,8 @@ public class Truck implements Car {
   }
   public int getLapCount(){
      return lap; 
+  }
+  public void setTopSpeed(float f){
+     this.topSpeed = f; 
   }
 }

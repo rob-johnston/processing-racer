@@ -28,7 +28,7 @@ public class Motorbike implements Car {
     
     name = "Motorbike";
               col = color(227,227,0);
-              topSpeed = 7;
+              topSpeed = 7.5;
               accelerationSpeed = 9;
               handling = 7;
               maxHealth = 2;
@@ -110,11 +110,10 @@ public class Motorbike implements Car {
     }
     ability=false;
     
-    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
-    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
+     if(oldY<currentTrack.getStartY() && ypos>currentTrack.getStartY() 
+    && xpos > currentTrack.getStartX()-60 && xpos < currentTrack.getStartX()+90){
        lap++; 
     }
-   
     
   }
 
@@ -383,5 +382,8 @@ public class Motorbike implements Car {
   }
   public int getLapCount(){
      return lap; 
+  }
+  public void setTopSpeed(float f){
+     this.topSpeed = f; 
   }
 }

@@ -31,7 +31,7 @@ public class GoCart implements Car {
      name = "Gocart";
               col =  color(227,0,227);
               topSpeed = 7.5;
-              accelerationSpeed = 6;
+              accelerationSpeed = 6.5;
               handling = 9;
               maxHealth = 4;
               
@@ -114,8 +114,8 @@ public class GoCart implements Car {
     }
     ability=false;
     
-    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
-    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
+    if(oldY<currentTrack.getStartY() && ypos>currentTrack.getStartY() 
+    && xpos > currentTrack.getStartX()-60 && xpos < currentTrack.getStartX()+90){
        lap++; 
     }
    
@@ -393,5 +393,8 @@ public class GoCart implements Car {
   }
   public int getLapCount(){
      return lap; 
+  }
+  public void setTopSpeed(float f){
+     this.topSpeed = f; 
   }
 }

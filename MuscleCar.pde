@@ -36,7 +36,7 @@ public class MuscleCar implements Car {
     name = "Muscle";
     col = color(0, 0, 227);
     topSpeed = 9;
-    accelerationSpeed = 6;
+    accelerationSpeed = 5.5;
     handling = 6;
     maxHealth = 6;
     this.health=maxHealth;
@@ -117,9 +117,9 @@ public class MuscleCar implements Car {
     }
     ability=false;
     
-    if(oldY<currentTrack.starty && ypos>currentTrack.starty 
-    && xpos > currentTrack.startx-60 && xpos < currentTrack.startx+90){
-       lap++;       
+    if(oldY<currentTrack.getStartY() && ypos>currentTrack.getStartY() 
+    && xpos > currentTrack.getStartX()-60 && xpos < currentTrack.getStartX()+90){
+       lap++; 
     }
    
     
@@ -145,9 +145,9 @@ public class MuscleCar implements Car {
     }
     //if ability is on lets to an awesome drift turn!
     if (ability) {
-      speed = speed - .14;
+      speed = speed - .15;
       if (speed<0) {
-        speed = speed +.14;
+        speed = speed +.15;
       }
       direction = direction - handling/ (4+(speed/3));
 
@@ -176,9 +176,9 @@ public class MuscleCar implements Car {
     //if ability is on lets to an awesome drift turn!
     if (ability) {
 
-      speed = speed - .14;
+      speed = speed - .15;
       if (speed<0) {
-        speed = speed +.14;
+        speed = speed +.15;
       }
       direction = direction + handling/ (4+(speed/3));
       xpos = xpos + (speed/2 * sin(radians(direction-90)));
@@ -411,5 +411,8 @@ public class MuscleCar implements Car {
   }
   public int getLapCount(){
      return lap; 
+  }
+  public void setTopSpeed(float f){
+     this.topSpeed = f; 
   }
 }

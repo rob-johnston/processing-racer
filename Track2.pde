@@ -9,6 +9,9 @@ public class Track2 extends Track {
   float startx = 10;
   float starty = 150;
   
+  ArrayList<PVector> tyres = new ArrayList<PVector>();
+ 
+  
   
   
   public Track2(){
@@ -48,25 +51,36 @@ controlPoints[24]=new PVector(83.0,726.0);
     barriers[0] = new Barrier(100,100,20,600);
     barriers[1] = new Barrier(280,300,240,20);
     barriers[2] = new Barrier(280,300,20,200);
-    barriers[3] = new Barrier(280,500,250,20);
+    barriers[3] = new Barrier(280,500,240,20);
     barriers[4] = new Barrier(520,300,20,500);
     barriers[5] = new Barrier(170,500,20,165);
    barriers[6] = new Barrier(170,670,120,20);
-   
    barriers[7] = new Barrier(130,173,500,20);
    barriers[8] = new Barrier(630,100,20,100);
-   
    barriers[9] = new Barrier(630,205,550,20);
-   
    barriers[10] = new Barrier(700,230,20,400);
-   
    barriers[11] = new Barrier(900,300,20,500);
-   
    barriers[12] = new Barrier(1170,200,20,40);
-   
-   
    barriers[13] = new Barrier(170,500,20,165);
    barriers[14] = new Barrier(170,500,20,165);
+   
+   
+   tyres.add(new PVector(300,690));
+   tyres.add(new PVector(320,690));
+   tyres.add(new PVector(340,690));
+  
+   tyres.add(new PVector(700,650));
+   tyres.add(new PVector(720,650));
+   tyres.add(new PVector(740,650));
+   tyres.add(new PVector(760,650));
+   tyres.add(new PVector(710,665));
+   tyres.add(new PVector(730,665));
+   tyres.add(new PVector(750,665));
+   tyres.add(new PVector(720,680));
+   tyres.add(new PVector(740,680));
+   tyres.add(new PVector(730,695));
+   
+   
    
    
   }
@@ -113,6 +127,23 @@ for(int i = 0; i< controlPoints.length ; i++){
        }
        rect((startx+13)+(i*10), starty,10,10);
    }
+   
+   //tyres
+   noStroke();
+   for(PVector tyre: tyres){
+     fill(70);
+     ellipse(tyre.x,tyre.y,20,20);
+     fill(0);
+     ellipse(tyre.x,tyre.y,10,10);
+   }
+   
+   
+   
+
+   
+   
+   
+   
    
   
   }
