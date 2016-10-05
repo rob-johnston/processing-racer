@@ -30,7 +30,7 @@ long finalTime=0;
 
 
 void setup(){
-    size(1400,800);
+    size(1500,800);
     showStartMenu();
   
 }
@@ -79,12 +79,12 @@ void draw () {
       mins = (int) ((currentTime-time) / (1000*60) % 60);
       hundredths   = (int) (currentTime-time) / (10) %100;
       fill(255);
-      text(mins + ":"+secs+":"+hundredths,1200,100);
+      text(mins + ":"+secs+":"+hundredths,1400,200);
   }
     //and display the lap count
-    text("P1 Laps completed: "+ player.getLapCount() + "/3", 1170,50);
+    text("P1 Laps: "+ player.getLapCount() + "/3", 1340,50);
     if(player2!=null){
-        text("P2 Laps completed: "+ player2.getLapCount() + "/3", 1170,100);
+        text("P2 Laps: "+ player2.getLapCount() + "/3", 1340,100);
     }
     
     
@@ -112,8 +112,6 @@ void draw () {
 }
 /* draws the tyre slide marks on screen*/
 void drawTyreMarks(){
-  
-  println(tyreMarks.size());
  
   stroke(40);
   fill(40);
@@ -267,11 +265,9 @@ void mouseClicked(){
   //player mode switching
   if( mouseX>400 & mouseX<700 && mouseY>620 && mouseY<750){
          if(gameStatus==0){
-            println("Entering 2 player mode");
             gameStatus=3;
             player=null; player2 =null;
          } else if (gameStatus==3){
-           println("exiting 2 player mode");
           gameStatus=0; 
           player=null; player2=null;
          }
@@ -344,6 +340,8 @@ void mouseClicked(){
       //otherwise we are in game and check for restart/menu button   
       if(mouseX>1320 && mouseX <1400 && mouseY >750 && mouseY<800){
         readyGame();
+        player=null;
+        player2=null;
         showStartMenu();
       }
   }  
@@ -352,12 +350,12 @@ void mouseClicked(){
 //called when we start a game - gets everything ready
 void readyGame(){
   //get car into position
-  player.setxpos(currentTrack.startx +20); 
-  player.setypos(currentTrack.starty);
+  player.setxpos(currentTrack.getStartX() +25); 
+  player.setypos(currentTrack.getStartY());
   
   if(player2!=null){
-    player2.setxpos(currentTrack.startx -20); 
-    player2.setypos(currentTrack.starty);
+    player2.setxpos(currentTrack.getStartX() +60); 
+    player2.setypos(currentTrack.getStartY());
   }
  
   //set up time and lap counting variables

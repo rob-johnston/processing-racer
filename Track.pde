@@ -125,6 +125,8 @@ for(int i = 0; i< controlPoints.length ; i++){
   return this.barriers; 
  }
   
+  public float getStartX(){ return startx;}
+  public float getStartY(){ return starty;}
   
 }
 

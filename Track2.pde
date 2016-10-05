@@ -6,7 +6,7 @@ public class Track2 extends Track {
   Barrier[] barriers;
   
   //a track needs a start/finish
-  float startx = -40;
+  float startx = 10;
   float starty = 150;
   
   
@@ -111,7 +111,7 @@ for(int i = 0; i< controlPoints.length ; i++){
          stroke(0);
          fill(0);
        }
-       rect((startx+65)+(i*10), starty,10,10);
+       rect((startx+13)+(i*10), starty,10,10);
    }
    
   
@@ -149,6 +149,12 @@ for(int i = 0; i< controlPoints.length ; i++){
  public Barrier[] getBarriers(){
   return this.barriers; 
  }
+  @Override
+  public float getStartX(){ return startx;}
+  @Override
+  public float getStartY(){ return starty;}
+  
+  
   
 }
 

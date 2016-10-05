@@ -20,13 +20,13 @@ class Barrier {
        fill(0);
        if(this.w>this.h){
           for(float i=this.x; i<this.x+this.w; i+=40){
-             fill(255); rect(i,this.y,20,20);
-             fill(255,0,0); rect(i+20,this.y,20,20);
+             fill(255); rect(i,this.y,20,25);
+             fill(255,0,0); rect(i+20,this.y,20,25);
           }
        } else {
          for(float i=this.y; i<this.y+this.h; i+=40){
-             fill(255); rect(this.x,i,20,20);
-             fill(255,0,0); rect(this.x,i+20,20,20);
+             fill(255); rect(this.x,i,25,20);
+             fill(255,0,0); rect(this.x,i+20,25,20);
           }
        }
          
